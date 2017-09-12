@@ -12,14 +12,14 @@ beta = 0.9
 kss = (alpha*beta)**(1/(1-alpha))   # steady state
 
 # comment for Part (d)
-L = 0.95                           # factor lower bound
-U = 1.05                           # factor upper bound
-n = 2                              # number of grid points
+# L = 0.95                           # factor lower bound
+# U = 1.05                           # factor upper bound
+# n = 2                              # number of grid points
 
 # uncomment for Part (d)
-# L = 0.6                         # idem
-# U = 1.4                         # idem
-# n = 100                         # idem
+L = 0.6                         # idem
+U = 1.4                         # idem
+n = 100                         # idem
 
 k = np.linspace(L * kss, U * kss, n)
 
@@ -57,16 +57,21 @@ E = 1/(1-beta)*(np.log(A*(1-alpha*beta))+alpha*beta/(1-alpha*beta)*np.log(A*alph
 
 F = alpha/(1-alpha*beta)
 
+print k
+print E+F * np.log(k)
+
 
 ''' Part C. Graphing using HighCharts. '''
 # Graph for E+F*np.log(k)
 
-df_discrete = pd.DataFrame({'k': k, 'discrete': E+F*np.log(k)})
+df_discrete = pd.DataFrame({'k': k, 'discrete': v.flatten()})
 df_discrete = df_discrete[['k', 'discrete']]
 discrete = df_discrete.values.tolist()
 
-df_v = pd.DataFrame({'v': v.flatten(), 'k': k})
-v = df_v.values.tolist()
+df_continuous = pd.DataFrame({'continuous': E+F*np.log(k), 'k': k})
+df_continuous = df_continuous[['k', 'continuous']]
+
+continuous = df_continuous.values.tolist()
 
 
 options = {
@@ -95,7 +100,7 @@ H.set_dict_options(options)
 
 
 H.add_data_set(discrete, 'scatter', 'Discrete', color='rgba(223, 83, 83, .5)')
-H.add_data_set(v, 'line', 'Continuous', zIndex=1, marker={
+H.add_data_set(continuous, 'line', 'Continuous', zIndex=1, marker={
                 'fillColor': 'white',
                 'lineWidth': 2,
                 'lineColor': 'Highcharts.getOptions().colors[0]'
@@ -110,12 +115,12 @@ html_file.close()
 
 # Graph for alpha*beta*A*k.^(alpha)
 
-df_discrete = pd.DataFrame({'k': k, 'discrete': alpha*beta * A * np.power(k, alpha)})
+df_discrete = pd.DataFrame({'k': k, 'discrete': k_prime})
 df_discrete = df_discrete[['k', 'discrete']]
 discrete = df_discrete.values.tolist()
 
-df_k_prime = pd.DataFrame({'k_prime': k_prime, 'k': k})
-k_prime = df_k_prime.values.tolist()
+df_continuous_k_prime = pd.DataFrame({'k_prime': alpha*beta * A * np.power(k, alpha), 'k': k})
+continuous_k_prime = df_continuous_k_prime.values.tolist()
 
 options = {
     'title': {
@@ -143,7 +148,7 @@ H1.set_dict_options(options)
 
 
 H1.add_data_set(discrete, 'scatter', 'Discrete', color='rgba(223, 83, 83, .5)')
-H1.add_data_set(k_prime, 'line', 'Continuous', zIndex=1, marker={
+H1.add_data_set(continuous_k_prime, 'line', 'Continuous', zIndex=1, marker={
                 'fillColor': 'white',
                 'lineWidth': 2,
                 'lineColor': 'Highcharts.getOptions().colors[0]'
