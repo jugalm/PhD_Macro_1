@@ -1,3 +1,7 @@
+"""
+Jugal Marfatia
+Macroeconomics homework 3.
+"""
 import numpy as np
 import numpy.matlib as mt
 import pandas as pd
@@ -154,7 +158,7 @@ H1.add_data_set(continuous_k_prime, 'line', 'Continuous', zIndex=1, marker={
                 'lineColor': 'Highcharts.getOptions().colors[0]'
             })
 
-html_str = H1.htmlcontent.encode('utf-8')
+html_str = H1.htmlcontent.decode('utf-8')
 
 html_file = open("chart2.html", "w")
 html_file.write(html_str)
